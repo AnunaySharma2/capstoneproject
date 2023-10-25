@@ -1,8 +1,6 @@
 import {useEffect, useState} from "react";
 import supabase from "./supabase";
-import {Button, Input} from "antd";
 import {Link} from "react-router-dom";
-import EmployeeInsert from "./EmployeeInsert";
 
 function App() {
     const [name, setName] = useState("");
@@ -32,81 +30,79 @@ function App() {
     }, [branch, name]);
 
     return (
-        <div style={{fontFamily: 'Arial, sans-serif', padding: '16px'}}>
-            <div style={{marginBottom: '24px'}}>
-                <Button
-                    type={"primary"}
-                    style={{
-                        margin: '16px',
-                        backgroundColor: '#3498db',
-                        borderColor: '#3498db'
-                    }}
-                    onClick={() => setBranch("CSE")}
-                >
-                    CSE
-                </Button>
-                <Button
-                    type={"primary"}
-                    style={{
-                        margin: '16px',
-                        backgroundColor: '#e74c3c',
-                        borderColor: '#e74c3c'
-                    }}
-                    onClick={() => setBranch("Mech")}
-                >
-                    Mech
-                </Button>
-                <Button
-                    type={"primary"}
-                    style={{
-                        margin: '16px',
-                        backgroundColor: '#2ecc71',
-                        borderColor: '#2ecc71'
-                    }}
-                    onClick={() => setBranch("ECE")}
-                >
-                    ECE
-                </Button>
-            </div>
-            <Input
-                style={{margin: '12px', width: '200px'}}
+        <div className={"bg-gray-950 min-h-screen"}>
+            <input
                 type="text"
+                className={"bg-gray-900 rounded-md w-1/2 border-gray-950 mx-5 mt-5 mb-1"}
                 placeholder={"Search"}
                 onChange={(e) => setName(e.target.value)}
             />
-            <Button onClick={() => {
+            <button className={"bg-yellow-500 hover:bg-yellow-600 py-2 text-gray-950"} onClick={() => {
                 if (name.length === 0) {
                     alert("Please enter a valid name");
                 }
             }}>
                 Search
-            </Button>
-            <Button>
+            </button>
+            <div className={"flex flex-1 p-5 gap-5"}>
+                <button
+                    className={"bg-blue-900 hover:bg-blue-700"}
+                    onClick={() => setBranch("CSE")}
+                >
+                    CSE
+                </button>
+                <button
+                    className={"bg-blue-900 hover:bg-blue-700"}
+                    onClick={() => setBranch("Mech")}
+                >
+                    Mech
+                </button>
+                <button
+                    className={"bg-blue-900 hover:bg-blue-700"}
+                    onClick={() => setBranch("ECE")}
+                >
+                    ECE
+                </button>
+            </div>
 
-            <Link to={"/add"}>Insert a new employee</Link>
-            </Button>
+            <div className={"flex mx-5 my-2 gap-5"}>
+                <button className={"bg-green-900 hover:bg-green-700"}>
+                    <Link to={"/add"}>Insert</Link>
+                </button>
+
+                <button className={"bg-green-900 hover:bg-green-700"}>
+                    <Link to={"/update"}>Update</Link>
+                </button>
+                <button className={"bg-green-900 hover:bg-green-700"}>
+                    <Link to={"/delete"}>Delete</Link>
+                </button>
+            </div>
+
+
             <div>
-                {employees.map((employee) =>
-                    <div key={employee.id} style={{
-                        margin: '12px',
-                        border: '1px solid #ddd',
-                        padding: '8px',
-                        borderRadius: '4px',
-                        display: 'flex',
-                        alignItems: 'center'
-                    }}>
-                        <img style={{width: '100px', height: '100px', borderRadius: '50%', marginRight: '16px'}}
-                             src={employee.photo_url} alt={employee.name}/>
-                        <div>
-                            <span style={{
-                                fontWeight: 'bold',
-                                display: 'block',
-                                marginBottom: '4px'
-                            }}>{employee.name}</span>
-                            <span style={{color: '#7f8c8d'}}>{employee.dept}</span>
+                {employees.length === 0 && <div className="m-5 p-5 text-lg badge badge-error gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         className="inline-block w-4 h-4 stroke-current">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                              d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    No data present
+                </div>}
+                <div className={"flex"}>
+                    {employees.map((employee) => (
+                        <div className="card mx-5 my-5 w-1/5 bg-gray-900 shadow-xl" key={employee.idd}>
+                            <figure><img className={"w-1/2 rounded-full mt-5"} src={employee.photo_url} alt="Shoes"/></figure>
+                            <div className="card-body items-center">
+                                <h2 className="card-title font-bold text-2xl text-gray-50">{employee.name}</h2>
+                                <p className={"text-gray-200 font-semibold text-xl"}>{employee.dept}</p>
+                                <h3 className="card-title font-bold text-xl text-gray-50">ID {employee.idd}</h3>
+
+                            </div>
                         </div>
-                    </div>
-                )}
+                    ))}
+                </div>
+
+
             </div>
         </div>
     );

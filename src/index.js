@@ -5,6 +5,8 @@ import App from './App';
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import EmployeeInsert from "./EmployeeInsert";
+import EmployeeUpdate from "./EmployeeUpdate";
+import EmployeeDelete from "./EmployeeDelete";
 
 const router =  createBrowserRouter([
     {
@@ -14,6 +16,14 @@ const router =  createBrowserRouter([
     {
         path: "/add",
         element: <EmployeeInsert/>
+    },
+    {
+        path: "/update",
+        element: <EmployeeUpdate/>
+    },
+    {
+        path: "/delete",
+        element: <EmployeeDelete/>
     }
 ])
 
