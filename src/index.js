@@ -6,12 +6,19 @@ import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import EmployeeInsert from "./EmployeeInsert";
 import EmployeeUpdate from "./EmployeeUpdate";
+import EmployeePage from "./EmployeePage";
 import EmployeeDelete from "./EmployeeDelete";
+import Admin from "./Admin";
+import {createClient} from "@supabase/supabase-js";
 
-const router =  createBrowserRouter([
+const router = createBrowserRouter([
     {
         path: "/",
         element: <App/>
+    },
+    {
+        path: "/admin",
+        element: <Admin/>
     },
     {
         path: "/add",
@@ -24,6 +31,10 @@ const router =  createBrowserRouter([
     {
         path: "/delete",
         element: <EmployeeDelete/>
+    },
+    {
+        path: "/employee/:id",
+        element: <EmployeePage/>
     }
 ])
 
@@ -31,6 +42,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <RouterProvider router={router}/>
+
     </React.StrictMode>
 );
 

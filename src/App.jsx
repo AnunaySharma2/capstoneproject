@@ -65,19 +65,6 @@ function App() {
                 </button>
             </div>
 
-            <div className={"flex mx-5 my-2 gap-5"}>
-                <button className={"bg-green-900 hover:bg-green-700"}>
-                    <Link to={"/add"}>Insert</Link>
-                </button>
-
-                <button className={"bg-green-900 hover:bg-green-700"}>
-                    <Link to={"/update"}>Update</Link>
-                </button>
-                <button className={"bg-green-900 hover:bg-green-700"}>
-                    <Link to={"/delete"}>Delete</Link>
-                </button>
-            </div>
-
 
             <div>
                 {employees.length === 0 && <div className="m-5 p-5 text-lg badge badge-error gap-2">
@@ -91,12 +78,13 @@ function App() {
                 <div className={"flex"}>
                     {employees.map((employee) => (
                         <div className="card mx-5 my-5 w-1/5 bg-gray-900 shadow-xl" key={employee.idd}>
-                            <figure><img className={"w-1/2 rounded-full mt-5"} src={employee.photo_url} alt="Shoes"/></figure>
+                            <figure><img className={"w-1/2 rounded-full mt-5"} src={employee.photo_url} alt="Shoes"/>
+                            </figure>
                             <div className="card-body items-center">
                                 <h2 className="card-title font-bold text-2xl text-gray-50">{employee.name}</h2>
                                 <p className={"text-gray-200 font-semibold text-xl"}>{employee.dept}</p>
                                 <h3 className="card-title font-bold text-xl text-gray-50">ID {employee.idd}</h3>
-
+                                <Link to={`/employee/${employee.idd}`}>View Details</Link>
                             </div>
                         </div>
                     ))}

@@ -1,43 +1,14 @@
 import {useState} from "react";
 import supabase from "./supabase";
-import styles from './EmployeeInsert.module.css';
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 function EmployeeInsert() {
     const [name, setName] = useState('');
     const [dept, setDepartment] = useState('');
-    const [photoUrl, setPhotoUrl] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [image, setImage] = useState(null);
+    const [imageURL, setImageURL] = useState("");
 
-    const handleLogin = () => {
-        if (username === "admin" && password === "admin") {
-            setIsLoggedIn(true);
-        } else {
-            alert("Invalid credentials");
-        }
-    }
-
-    if (!isLoggedIn) {
-        return (
-            <div className={styles.container}>
-                <h1 className={"text-3xl font-bold text-gray-50"}>Login</h1>
-                <div className={styles.form_group}>
-                    <input className={"bg-gray-900 border-none p-3 w-full my-2"} placeholder={"Username"} type="text" value={username} onChange={(e) => setUsername(e.target.value)}/>
-                </div>
-                <div className={styles.form_group}>
-                    <input className={"bg-gray-900 border-none p-3 w-full my-2"} placeholder={"Password"} type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-                </div>
-                <div className={styles.form_group}>
-                    <button className={"bg-yellow-700 hover:bg-yellow-800 font-semibold"} onClick={handleLogin}>Login</button>
-                </div>
-                <button className={"bg-gray-900 hover:bg-gray-800 font-semibold"}>
-                    <Link to={"/"}>View current employees</Link>
-                </button>
-            </div>
-        )
-    }
     const handleNameChange = (e) => {
         setName(e.target.value);
     };
@@ -46,20 +17,39 @@ function EmployeeInsert() {
         setDepartment(e.target.value);
     };
 
-    const handlePhotoUrlChange = (e) => {
-        setPhotoUrl(e.target.value);
+    const handleImageUpload = async (e) => {
+        const formData = new FormData();
+        formData.append('image', e.target.files[0]);
+
+        try {
+            const response = await axios.post(
+                'https://api.imgbb.com/1/upload',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                    params: {
+                        key: '4169bbe5a7698938f02ec6792a8db4f3',
+                    },
+                }
+            );
+
+            if (response.status === 200) {
+                const imageUrl = response.data.data.url;
+                console.log('Image URL:', imageUrl);
+                setImageURL(imageUrl)
+            }
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !dept || !photoUrl) {
+        if (!name || !dept) {
             alert('Please fill in all fields');
-            return;
-        }
-
-        if(!(photoUrl.endsWith(".jpg") || photoUrl.endsWith(".png") || photoUrl.endsWith(".jpeg"))){
-            alert("Photo must be of compatible type");
             return;
         }
 
@@ -68,10 +58,9 @@ function EmployeeInsert() {
             return;
         }
 
-        // Insert the data into the Supabase table
-        const {data: insertedData, error: insertError} = await supabase
-            .from('employees') // Replace with your table name
-            .insert([{name, dept, photo_url: photoUrl}]);
+        const { data: insertedData, error: insertError } = await supabase
+            .from('employees')
+            .insert([{ name, dept, photo_url: imageURL}]);
 
         if (insertError) {
             console.error('Error inserting data:', insertError);
@@ -81,7 +70,6 @@ function EmployeeInsert() {
         alert('Data inserted successfully');
         setName('');
         setDepartment('');
-        setPhotoUrl('');
     };
 
     return (
@@ -108,19 +96,20 @@ function EmployeeInsert() {
                 </div>
                 <div className="mb-4">
                     <label className="block text-white text-sm font-medium mb-2">Photo URL:</label>
-                    <input
-                        type="text"
-                        value={photoUrl}
-                        onChange={handlePhotoUrlChange}
-                        className="text-white w-full border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
-                    />
+                    {/*/>*/}
+                    <input type="file"
+                           className="text-white w-full border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
+                            accept={"image/*"}
+                           onChange={handleImageUpload}/>
                 </div>
                 <div className="mb-4">
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
+                    <button type="submit"
+                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
                         Submit
                     </button>
                 </div>
-                <button className="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
+                <button
+                    className="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
                     <Link to={"/"} className="text-white">View current employees</Link>
                 </button>
             </form>
