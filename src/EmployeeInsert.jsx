@@ -1,19 +1,15 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import supabase from "./supabase";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import axios from "axios";
 import AdminHeader from "./AdminHeader";
+import NotLoggedIn from "./NotLoggedIn";
 
 function EmployeeInsert() {
     const [name, setName] = useState('');
     const [dept, setDepartment] = useState('');
     const [imageURL, setImageURL] = useState("");
 
-    const navigate = useNavigate()
-
-    if (localStorage.getItem('loginActivate') === null || (localStorage.getItem('loginActivate') !== null && localStorage.getItem("loginActivate") !== "true")) {
-        navigate("/");
-    }
 
     const handleNameChange = (e) => {
         setName(e.target.value);
@@ -81,44 +77,46 @@ function EmployeeInsert() {
     return (
         <div className={"bg-gray-950 min-h-screen min-w-screen p-5"}>
             <AdminHeader activated={"insert"}/>
-            <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                    <label className="block text-white text-sm font-medium mb-2">Name:</label>
-                    <input
-                        type="text"
-                        value={name}
-                        onChange={handleNameChange}
-                        className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-white text-sm font-medium mb-2">Department:</label>
-                    <input
-                        type="text"
-                        value={dept}
-                        onChange={handleDepartmentChange}
-                        className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-white text-sm font-medium mb-2">Photo URL:</label>
-                    {/*/>*/}
-                    <input type="file"
-                           className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
-                           accept={"image/*"}
-                           onChange={handleImageUpload}/>
-                </div>
-                <div className="mb-4">
-                    <button type="submit"
-                            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
-                        Submit
+            <NotLoggedIn/>
+            {localStorage.getItem("loginActivate") !== null && localStorage.getItem("loginActivate") === "true" &&
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <label className="block text-white text-sm font-medium mb-2">Name:</label>
+                        <input
+                            type="text"
+                            value={name}
+                            onChange={handleNameChange}
+                            className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-white text-sm font-medium mb-2">Department:</label>
+                        <input
+                            type="text"
+                            value={dept}
+                            onChange={handleDepartmentChange}
+                            className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-white text-sm font-medium mb-2">Photo URL:</label>
+                        {/*/>*/}
+                        <input type="file"
+                               className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
+                               accept={"image/*"}
+                               onChange={handleImageUpload}/>
+                    </div>
+                    <div className="mb-4">
+                        <button type="submit"
+                                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
+                            Submit
+                        </button>
+                    </div>
+                    <button
+                        className="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
+                        <Link to={"/"} className="text-white">View current employees</Link>
                     </button>
-                </div>
-                <button
-                    className="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
-                    <Link to={"/"} className="text-white">View current employees</Link>
-                </button>
-            </form>
+                </form>}
         </div>
 
     );
