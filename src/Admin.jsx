@@ -11,11 +11,12 @@ function Admin() {
     function loginHandler() {
         if (username === "admin" && password === "admin") {
             localStorage.setItem('loginActivate', 'true');
+        }else{
+            alert("Wrong credentials");
+            return
         }
         navigate("/admin")
     }
-
-
 
     return <div className={"bg-gray-950 min-h-screen min-w-screen p-5 flex justify-center"}>
         <AdminHeader/>
