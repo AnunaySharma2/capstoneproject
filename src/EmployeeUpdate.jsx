@@ -40,7 +40,7 @@ function EmployeeUpdate(message) {
                 setUpdateImageURL(imageUrl)
 
                 setTimeout(() => {
-                }, 1000);
+                }, 3000);
 
                 const {data, error} = await supabase
                     .from("employees")

@@ -60,6 +60,9 @@ function EmployeeInsert() {
             return;
         }
 
+        setTimeout(() => {
+        }, 3000);
+
         const {data: insertedData, error: insertError} = await supabase
             .from('employees')
             .insert([{name, dept, photo_url: imageURL}]);
