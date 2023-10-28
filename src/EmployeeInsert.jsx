@@ -81,7 +81,7 @@ function EmployeeInsert() {
         <div className={"bg-gray-950 min-h-screen min-w-screen p-5"}>
             <AdminHeader activated={"insert"}/>
             <NotLoggedIn/>
-            {localStorage.getItem("loginActivate") !== null && localStorage.getItem("loginActivate") === "true" &&
+            {sessionStorage.getItem("loginActivate") !== null && sessionStorage.getItem("loginActivate") === "true" &&
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-white text-sm font-medium mb-2">Name:</label>

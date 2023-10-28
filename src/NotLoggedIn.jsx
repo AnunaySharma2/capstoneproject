@@ -4,7 +4,7 @@ import React from "react";
 function NotLoggedIn() {
     return (
     <>
-        {localStorage.getItem("loginActivate")===null && <div>
+        {sessionStorage.getItem("loginActivate")===null && <div>
             <h1 className={"text-white text-2xl font-bold"}>Please login first</h1>
             <button
                 className="bg-gray-700 hover:bg-gray-800 text-white rounded-md shadow-md transition duration-200 px-4 py-2"

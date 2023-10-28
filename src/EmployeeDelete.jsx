@@ -33,7 +33,7 @@ function EmployeeDelete() {
     return (
         <div className={"bg-gray-950 min-h-screen min-w-screen p-2"}>
             <NotLoggedIn/>
-            {localStorage.getItem("loginActivate") !== null && localStorage.getItem("loginActivate") === "true" &&
+            {sessionStorage.getItem("loginActivate") !== null && sessionStorage.getItem("loginActivate") === "true" &&
                 <div className={"bg-gray-950 min-h-screen min-w-screen p-5"}>
                     <AdminHeader activated={"delete"}/>
                     <form onSubmit={handleSubmit}>

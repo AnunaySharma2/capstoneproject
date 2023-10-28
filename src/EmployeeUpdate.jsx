@@ -154,7 +154,7 @@ function EmployeeUpdate(message) {
     return (
         <div className={"bg-gray-950 min-h-screen min-w-screen p-5"}>
             <NotLoggedIn/>
-            {localStorage.getItem("loginActivate") !== null && localStorage.getItem("loginActivate") === "true" && <div>
+            {sessionStorage.getItem("loginActivate") !== null && sessionStorage.getItem("loginActivate") === "true" && <div>
                 <>
                     <AdminHeader activated={"update"}/>
                     <form onSubmit={handleSubmit}>

@@ -10,7 +10,7 @@ function Admin() {
 
     function loginHandler() {
         if (username === "admin" && password === "admin") {
-            localStorage.setItem('loginActivate', 'true');
+            sessionStorage.setItem('loginActivate', 'true');
         }else{
             alert("Wrong credentials");
             return
@@ -20,7 +20,7 @@ function Admin() {
 
     return <div className={"bg-gray-950 min-h-screen min-w-screen p-5 flex justify-center"}>
         <AdminHeader/>
-        {localStorage.getItem('loginActivate') === null &&
+        {sessionStorage.getItem('loginActivate') === null &&
             <div className={"flex flex-col w-1/3 items-center justify-center"}>
                 <h1 className={"text-3xl font-bold text-gray-50"}>Login</h1>
                 <div>

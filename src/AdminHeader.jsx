@@ -4,12 +4,12 @@ import React from "react";
 function AdminHeader({activated}) {
     const navigate = useNavigate()
     function logoutHandler() {
-        localStorage.removeItem('loginActivate');
+        sessionStorage.removeItem('loginActivate');
         navigate('/')
     }
 
     return <>
-        {localStorage.getItem('loginActivate') === 'true' && <div className="w-full flex justify-between">
+        {sessionStorage.getItem('loginActivate') === 'true' && <div className="w-full flex justify-between">
             <div>
                 <button className={`mx-2 ${activated==="insert" ? "bg-green-900 hover:bg-green-700" : "bg-blue-900 hover:bg-blue-700"}`}>
                     <Link to="/add">Insert</Link>
