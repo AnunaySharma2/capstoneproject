@@ -73,7 +73,7 @@ function EmployeeInsert() {
     };
 
     return (
-        <div className="bg-gray-900 p-8 rounded-xl shadow-md max-w-xl mx-auto mt-10">
+        <div  className={"bg-gray-950 min-h-screen min-w-screen p-5"}>
             <h1 className="text-white text-2xl mb-6 font-semibold">Insert Data</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -82,7 +82,7 @@ function EmployeeInsert() {
                         type="text"
                         value={name}
                         onChange={handleNameChange}
-                        className="text-white w-full border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
+                        className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
                     />
                 </div>
                 <div className="mb-4">
@@ -91,14 +91,14 @@ function EmployeeInsert() {
                         type="text"
                         value={dept}
                         onChange={handleDepartmentChange}
-                        className="text-white w-full border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
+                        className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
                     />
                 </div>
                 <div className="mb-4">
                     <label className="block text-white text-sm font-medium mb-2">Photo URL:</label>
                     {/*/>*/}
                     <input type="file"
-                           className="text-white w-full border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
+                           className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
                             accept={"image/*"}
                            onChange={handleImageUpload}/>
                 </div>

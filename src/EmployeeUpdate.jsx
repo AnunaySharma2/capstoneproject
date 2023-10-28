@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from "react";
 import styles from "./EmployeeInsert.module.css";
-import {Button} from "antd";
-import {Link} from "react-router-dom";
 import supabase from "./supabase";
 import axios from "axios";
 
@@ -9,6 +7,7 @@ function EmployeeUpdate(message) {
     const [id, setID] = useState();
     const [name, setName] = useState("");
     const [dept, setDept] = useState("");
+    const [employees, setEmployees] = useState([]);
     const [updateName, setUpdateName] = useState("");
     const [updateDept, setUpdateDept] = useState("");
     const [imageURL, setImageURL] = useState("");
@@ -105,6 +104,27 @@ function EmployeeUpdate(message) {
         setDept("");
     }
 
+    useEffect(() => {
+        async function fetchTodos() {
+            try {
+                const {data, error} = await supabase
+                    .from('employees')
+                    .select('*')
+                    .order('idd')
+
+                if (error) {
+                    console.error('Error fetching data:', error);
+                } else {
+                    setEmployees(data);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error.message);
+            }
+        }
+
+        fetchTodos();
+    }, []);
+
     async function deptChangeHandler() {
         if (updateDept !== "CSE" && updateDept !== "ECE" && updateDept !== "Mech") {
             alert("Department must be CSE, ECE or Mech");
@@ -129,6 +149,7 @@ function EmployeeUpdate(message) {
 
     return (
         <div className={"bg-gray-950 min-h-screen min-w-screen p-5"}>
+            <div className={"mx-5 my-3"}>
             <h1 className={"text-white text-3xl mb-6 font-semibold"}>Update Data</h1>
             <form onSubmit={handleSubmit}>
                 {!name && <div className={styles.form_group}>
@@ -184,11 +205,23 @@ function EmployeeUpdate(message) {
                         Submit
                     </button>}
                 </div>
-                <button
-                    className="bg-gray-700 hover:bg-gray-800 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
-                    <Link to={"/"} className="text-white">View current employees</Link>
-                </button>
             </form>
+            </div>
+            {<div className="flex flex-wrap">
+                {employees.map((employee) => (
+                    <div className="card m-3 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 bg-gray-900 shadow-xl"
+                         key={employee.idd}>
+                        <figure className="px-10 pt-10">
+                            <img className="w-1/2 rounded-full" src={employee.photo_url} alt="Employee"/>
+                        </figure>
+                        <div className="card-body items-center text-center">
+                            <h2 className="card-title font-bold text-xl text-gray-50">{employee.name}</h2>
+                            <p className={"text-gray-200 font-semibold text-lg"}>{employee.dept}</p>
+                            <h3 className="card-title font-bold text-lg text-gray-50">ID {employee.idd}</h3>
+                        </div>
+                    </div>
+                ))}
+            </div>}
         </div>
     );
 }
