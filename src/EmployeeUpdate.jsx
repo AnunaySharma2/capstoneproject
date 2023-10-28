@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import styles from "./EmployeeInsert.module.css";
 import supabase from "./supabase";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import AdminHeader from "./AdminHeader";
 
 function EmployeeUpdate(message) {
     const [id, setID] = useState();
@@ -12,6 +14,12 @@ function EmployeeUpdate(message) {
     const [updateDept, setUpdateDept] = useState("");
     const [imageURL, setImageURL] = useState("");
     const [updateImageURL, setUpdateImageURL] = useState("");
+
+    const navigate = useNavigate()
+
+    if(localStorage.getItem('loginActivate')===null || (localStorage.getItem('loginActivate')!==null && localStorage.getItem("loginActivate")!=="true")){
+        navigate("/");
+    }
 
     const handleImageUploadUpdate = async (e) => {
         const formData = new FormData();
@@ -36,7 +44,8 @@ function EmployeeUpdate(message) {
                 console.log('Image URL:', imageUrl);
                 setUpdateImageURL(imageUrl)
 
-                setTimeout(() => {}, 1000);
+                setTimeout(() => {
+                }, 1000);
 
                 const {data, error} = await supabase
                     .from("employees")
@@ -49,6 +58,7 @@ function EmployeeUpdate(message) {
                     return;
                 }
                 alert("Updated successfully")
+                navigate("/update")
             }
         } catch (error) {
             console.error('Error uploading image:', error);
@@ -149,63 +159,45 @@ function EmployeeUpdate(message) {
 
     return (
         <div className={"bg-gray-950 min-h-screen min-w-screen p-5"}>
-            <div className={"mx-5 my-3"}>
-            <h1 className={"text-white text-3xl mb-6 font-semibold"}>Update Data</h1>
-            <form onSubmit={handleSubmit}>
-                {!name && <div className={styles.form_group}>
-                    <label>Update ID:</label>
-                    <input className={"text-white w-1/5 bg-gray-900 border-none my-2"} type="number"
-                           onChange={(e) => setID(e.target.value)}/>
-                </div>}
-
-                {/*<div className={styles.form_group}>*/}
-                {/*    <label>Update Name:</label>*/}
-                {/*    <input className={"text-white bg-gray-900 border-none my-2"} type="text" value={name}*/}
-                {/*           onChange={(e) => setName(e.target.value)}/>*/}
-                {/*</div>*/}
-                {/*<div className={styles.form_group}>*/}
-                {/*    <label>Update Branch:</label>*/}
-                {/*    <input className={"text-white bg-gray-900 border-none my-2"} type="text" value={dept}*/}
-                {/*           onChange={(e) => setDept(e.target.value)}/>*/}
-                {/*</div>*/}
-                {/*<div className={styles.form_group}>*/}
-                {/*    <label>Update Photo URL:</label>*/}
-                {/*    <input type="file"*/}
-                {/*           className="text-white w-full border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"*/}
-                {/*           accept={"image/*"}*/}
-                {/*           onChange={handleImageUploadUpdate}/>*/}
-                {/*</div>*/}
-                {name && <div>
-                    <div>
-                        <img className="w-1/5 h-1/5 py-3 rounded-full" src={imageURL} alt="Employee"/>
+            <div className={""}>
+                <AdminHeader activated={"update"}/>
+                <form onSubmit={handleSubmit}>
+                    {!name && <div className={styles.form_group}>
+                        <label>Update ID:</label>
+                        <input className={"text-white w-1/5 bg-gray-900 border-none my-2"} type="number"
+                               onChange={(e) => setID(e.target.value)}/>
+                    </div>}
+                    {name && <div>
+                        <div>
+                            <img className="w-1/5 h-1/5 py-3 rounded-full" src={imageURL} alt="Employee"/>
+                        </div>
+                        <div>
+                            <input
+                                className={"text-white w-1/5 border-none bg-gray-800 my-3 rounded-md  placeholder-gray-400"}
+                                placeholder={`${name} (Type here to update)`}
+                                onChange={(e) => setUpdateName(e.target.value)}></input>
+                            <button className={"p-2 mx-3"} onClick={nameChangeHandler}>Update Name</button>
+                        </div>
+                        <div>
+                            <input
+                                className={"text-white w-1/5 border-none bg-gray-800 my-3 rounded-md placeholder-gray-400"}
+                                placeholder={`${dept} (Type here to update)`}
+                                onChange={(e) => setUpdateDept(e.target.value)}></input>
+                            <button className={"p-2 mx-3"} onClick={deptChangeHandler}>Update dept</button>
+                        </div>
+                        <div>
+                            <input type="file"
+                                   className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md placeholder-gray-600"
+                                   accept={"image/*"} onChange={handleImageUploadUpdate} placeholder={"Update Image"}/>
+                        </div>
+                    </div>}
+                    <div className="mb-4">
+                        {!name && <button type="submit"
+                                          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
+                            Submit
+                        </button>}
                     </div>
-                    <div>
-                        <input
-                            className={"text-white w-1/5 border-none bg-gray-800 my-3 rounded-md  placeholder-gray-400"}
-                            placeholder={`${name} (Type here to update)`}
-                            onChange={(e) => setUpdateName(e.target.value)}></input>
-                        <button className={"p-2 mx-3"} onClick={nameChangeHandler}>Update Name</button>
-                    </div>
-                    <div>
-                        <input
-                            className={"text-white w-1/5 border-none bg-gray-800 my-3 rounded-md placeholder-gray-400"}
-                            placeholder={`${dept} (Type here to update)`}
-                            onChange={(e) => setUpdateDept(e.target.value)}></input>
-                        <button className={"p-2 mx-3"} onClick={deptChangeHandler}>Update dept</button>
-                    </div>
-                    <div>
-                        <input type="file"
-                               className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md placeholder-gray-600"
-                               accept={"image/*"} onChange={handleImageUploadUpdate} placeholder={"Update Image"}/>
-                    </div>
-                </div>}
-                <div className="mb-4">
-                    {!name && <button type="submit"
-                                      className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
-                        Submit
-                    </button>}
-                </div>
-            </form>
+                </form>
             </div>
             {<div className="flex flex-wrap">
                 {employees.map((employee) => (

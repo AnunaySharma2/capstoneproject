@@ -1,13 +1,19 @@
 import {useState} from "react";
 import supabase from "./supabase";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import AdminHeader from "./AdminHeader";
 
 function EmployeeInsert() {
     const [name, setName] = useState('');
     const [dept, setDepartment] = useState('');
-    const [image, setImage] = useState(null);
     const [imageURL, setImageURL] = useState("");
+
+    const navigate = useNavigate()
+
+    if (localStorage.getItem('loginActivate') === null || (localStorage.getItem('loginActivate') !== null && localStorage.getItem("loginActivate") !== "true")) {
+        navigate("/");
+    }
 
     const handleNameChange = (e) => {
         setName(e.target.value);
@@ -58,9 +64,9 @@ function EmployeeInsert() {
             return;
         }
 
-        const { data: insertedData, error: insertError } = await supabase
+        const {data: insertedData, error: insertError} = await supabase
             .from('employees')
-            .insert([{ name, dept, photo_url: imageURL}]);
+            .insert([{name, dept, photo_url: imageURL}]);
 
         if (insertError) {
             console.error('Error inserting data:', insertError);
@@ -73,8 +79,8 @@ function EmployeeInsert() {
     };
 
     return (
-        <div  className={"bg-gray-950 min-h-screen min-w-screen p-5"}>
-            <h1 className="text-white text-2xl mb-6 font-semibold">Insert Data</h1>
+        <div className={"bg-gray-950 min-h-screen min-w-screen p-5"}>
+            <AdminHeader activated={"insert"}/>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label className="block text-white text-sm font-medium mb-2">Name:</label>
@@ -99,7 +105,7 @@ function EmployeeInsert() {
                     {/*/>*/}
                     <input type="file"
                            className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
-                            accept={"image/*"}
+                           accept={"image/*"}
                            onChange={handleImageUpload}/>
                 </div>
                 <div className="mb-4">
