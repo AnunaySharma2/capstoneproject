@@ -9,6 +9,9 @@ function EmployeeInsert() {
     const [name, setName] = useState('');
     const [dept, setDepartment] = useState('');
     const [imageURL, setImageURL] = useState("");
+    const [qualification, setQualification] = useState("");
+    const [yearsOfExperience, setYearsOfExperience] = useState("");
+    const [subjectsTaken, setSubjectsTaken] = useState("");
 
 
     const handleNameChange = (e) => {
@@ -18,6 +21,18 @@ function EmployeeInsert() {
     const handleDepartmentChange = (e) => {
         setDepartment(e.target.value);
     };
+
+    const handleQualification = (e) => {
+        setQualification(e.target.value);
+    }
+
+    const handleYearsOfExperience = (e) => {
+        setYearsOfExperience(e.target.value);
+    }
+
+    const handleSubjectsTaken = (e) => {
+        setSubjectsTaken(e.target.value);
+    }
 
     const handleImageUpload = async (e) => {
         const formData = new FormData();
@@ -50,7 +65,7 @@ function EmployeeInsert() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !dept) {
+        if (!name || !dept || !qualification || !subjectsTaken) {
             alert('Please fill in all fields');
             return;
         }
@@ -65,7 +80,14 @@ function EmployeeInsert() {
 
         const {data: insertedData, error: insertError} = await supabase
             .from('employees')
-            .insert([{name, dept, photo_url: imageURL}]);
+            .insert([{
+                name,
+                dept,
+                photo_url: imageURL,
+                qualifications: qualification,
+                yoe: yearsOfExperience,
+                subjectaken: subjectsTaken
+            }]);
 
         if (insertError) {
             console.error('Error inserting data:', insertError);
@@ -98,6 +120,33 @@ function EmployeeInsert() {
                             type="text"
                             value={dept}
                             onChange={handleDepartmentChange}
+                            className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-white text-sm font-medium mb-2">Qualification:</label>
+                        <input
+                            type="text"
+                            value={qualification}
+                            onChange={handleQualification}
+                            className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-white text-sm font-medium mb-2">Years of Experience:</label>
+                        <input
+                            type="number"
+                            value={yearsOfExperience}
+                            onChange={handleYearsOfExperience}
+                            className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-white text-sm font-medium mb-2">Subjects Taken:</label>
+                        <input
+                            type="text"
+                            value={subjectsTaken}
+                            onChange={handleSubjectsTaken}
                             className="text-white w-1/5 border-none bg-gray-800 my-2 px-3 py-2 rounded-md text-black placeholder-gray-600"
                         />
                     </div>

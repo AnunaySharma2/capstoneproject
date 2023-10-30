@@ -12,6 +12,9 @@ function EmployeeUpdate(message) {
     const [employees, setEmployees] = useState([]);
     const [updateName, setUpdateName] = useState("");
     const [updateDept, setUpdateDept] = useState("");
+    const [updateQualification, setUpdateQualification] = useState("");
+    const [updateYear, setUpdateYear] = useState(0);
+    const [updateSubjectTaken, setUpdateSubjectTaken] = useState("");
     const [imageURL, setImageURL] = useState("");
     const [updateImageURL, setUpdateImageURL] = useState("");
 
@@ -151,6 +154,57 @@ function EmployeeUpdate(message) {
         setDept("");
     }
 
+    async function qualChangeHandler() {
+        const {data, error} = await supabase
+            .from("employees")
+            .update({qualifications: updateQualification})
+            .eq('idd', id)
+            .select()
+
+        if (error) {
+            alert("Error updating qualification")
+            return
+        }
+        alert("Updated successfully")
+        setID(null);
+        setName("");
+        setDept("");
+    }
+
+    async function updateYearChangeHandler() {
+        const {data, error} = await supabase
+            .from("employees")
+            .update({yoe: updateYear})
+            .eq('idd', id)
+            .select()
+
+        if (error) {
+            alert("Error updating YOE")
+            return
+        }
+        alert("Updated successfully")
+        setID(null);
+        setName("");
+        setDept("");
+    }
+
+    async function updateSubjectsTakenChangeHandler() {
+        const {data, error} = await supabase
+            .from("employees")
+            .update({subjectaken: updateSubjectTaken})
+            .eq('idd', id)
+            .select()
+
+        if (error) {
+            alert("Error updating subjects taken")
+            return
+        }
+        alert("Updated successfully")
+        setID(null);
+        setName("");
+        setDept("");
+    }
+
     return (
         <div className={"bg-gray-950 min-h-screen min-w-screen p-5"}>
             <NotLoggedIn/>
@@ -180,6 +234,27 @@ function EmployeeUpdate(message) {
                                     placeholder={`${dept} (Type here to update)`}
                                     onChange={(e) => setUpdateDept(e.target.value)}></input>
                                 <button className={"p-2 mx-3"} onClick={deptChangeHandler}>Update dept</button>
+                            </div>
+                            <div>
+                                <input
+                                    className={"text-white w-1/5 border-none bg-gray-800 my-3 rounded-md placeholder-gray-400"}
+                                    placeholder={`Qualifications`}
+                                    onChange={(e) => setUpdateQualification(e.target.value)}></input>
+                                <button className={"p-2 mx-3"} onClick={qualChangeHandler}>Update qualification</button>
+                            </div>
+                            <div>
+                                <input
+                                    className={"text-white w-1/5 border-none bg-gray-800 my-3 rounded-md placeholder-gray-400"}
+                                    placeholder={`Years of Experience`}
+                                    onChange={(e) => setUpdateYear(e.target.value)}></input>
+                                <button className={"p-2 mx-3"} onClick={updateYearChangeHandler}>Update YOE</button>
+                            </div>
+                            <div>
+                                <input
+                                    className={"text-white w-1/5 border-none bg-gray-800 my-3 rounded-md placeholder-gray-400"}
+                                    placeholder={`Subjects Taken`}
+                                    onChange={(e) => setUpdateSubjectTaken(e.target.value)}></input>
+                                <button className={"p-2 mx-3"} onClick={updateSubjectsTakenChangeHandler}>Update Subjects taken</button>
                             </div>
                             <div>
                                 <input type="file"

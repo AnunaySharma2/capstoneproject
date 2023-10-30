@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import supabase from "./supabase";
 import {Link} from "react-router-dom";
+import Navbar from "./Navbar";
 
 function App() {
     const [name, setName] = useState("");
@@ -34,6 +35,7 @@ function App() {
 
     return (
         <div className="bg-gray-950 min-h-screen min-w-screen p-2">
+            <Navbar/>
             <input
                 type="text"
                 className="bg-gray-900 rounded-md w-full md:w-1/2 border-gray-950 mx-5 mt-5 mb-1"

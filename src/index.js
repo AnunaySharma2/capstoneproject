@@ -10,6 +10,8 @@ import EmployeePage from "./EmployeePage";
 import EmployeeDelete from "./EmployeeDelete";
 import Admin from "./Admin";
 import {createClient} from "@supabase/supabase-js";
+import AboutPage from "./AboutPage";
+import Courses from "./Courses";
 
 const router = createBrowserRouter([
     {
@@ -33,8 +35,16 @@ const router = createBrowserRouter([
         element: <EmployeeDelete/>
     },
     {
+        path: "/aboutus",
+        element: <AboutPage/>
+    },
+    {
         path: "/employee/:id",
         element: <EmployeePage/>
+    },
+    {
+        path: "/courses",
+        element: <Courses/>
     }
 ])
 
