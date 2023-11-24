@@ -35,13 +35,16 @@ function EmployeePage() {
     return (
         <div className={"bg-gray-950 min-h-screen p-5"}>
             <h1 className={"text-white text-3xl font-semibold p-5"}>Profile</h1>
-            <div className="card mx-5 my-5 w-1/5 bg-gray-900 shadow-xl" key={employee.idd}>
+            <div className="card mx-5 my-5 w-2/5 bg-gray-900 shadow-xl" key={employee.idd}>
                 <figure><img className={"w-1/2 rounded-full mt-5"} src={employee.photo_url} alt="Shoes"/>
                 </figure>
-                <div className="card-body items-center">
+                <div className="card-body">
                     <h2 className="card-title font-bold text-2xl text-gray-50">{employee.name}</h2>
                     <p className={"text-gray-200 font-semibold text-xl"}>{employee.dept}</p>
-                    <h3 className="card-title font-bold text-xl text-gray-50">ID {employee.idd}</h3>
+                    <h3 className="card-title font-bold text-lg text-gray-50">ID : {employee.idd}</h3>
+                    <h3 className="card-title font-bold text-lg text-gray-50">Years of Experience : {employee.yoe}</h3>
+                    <h3 className="card-title font-bold text-lg text-gray-50">Qualifications : {employee.qualifications}</h3>
+                    <h3 className="card-title font-bold text-lg text-gray-50">Subject Taken :  {employee.subjectaken}</h3>
                 </div>
             </div>
             <button className="bg-gray-700 mx-5 my-3 hover:bg-gray-800 text-white py-2 px-4 rounded-md shadow-md transition duration-200">
