@@ -12,6 +12,7 @@ import Admin from "./Admin";
 import {createClient} from "@supabase/supabase-js";
 import AboutPage from "./AboutPage";
 import Courses from "./Courses";
+import Home from "./Home";
 
 const router = createBrowserRouter([
     {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
     {
         path: "/courses",
         element: <Courses/>
+    },
+    {
+        path: "/home",
+        element: <Home/>
     }
 ])
 
